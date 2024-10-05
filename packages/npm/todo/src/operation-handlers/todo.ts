@@ -1,54 +1,49 @@
 import * as api from "todo-api";
 import { Context } from "../context.js";
 
-export const ListTodoItems =
+export const listTodoItems =
   (context: Context): api.server.ListTodoItemsOperationHandler<{}> =>
   async () => {
-    return await context.todo.listTodoItems();
+    return [...context.todo.listTodoItems()].map(([id, { description, isDone }]) => ({
+      id,
+      description,
+      done: isDone,
+    }));
   };
 
 export const addTodoItem =
   (context: Context): api.server.AddTodoItemOperationHandler<{}> =>
-  async (todo) => {
-    const createdTodo = await context.todo.createTodo(todo.description);
+  async ({ description }) => {
+    const id = context.todo.createTodo(description);
 
-    const todoItem = {
-      description: createdTodo.todoName,
-      id: createdTodo.todoId,
-      done: createdTodo.todoIsDone,
-    };
-
-    return todoItem;
-  };
-
-export const modifyTodoItem =
-  (context: Context): api.server.ModifyTodoItemOperationHandler<{}> =>
-  async (todo) => {
-    const updatedTodo = await context.todo.updateTodo(todo.id);
-
-    const todoItem = {
-      description: updatedTodo.todoName,
-      id: updatedTodo.todoId,
-      done: updatedTodo.todoIsDone,
-    };
-    return todoItem;
+    return id;
   };
 
 export const deleteTodoItem =
   (context: Context): api.server.DeleteTodoItemOperationHandler<{}> =>
   async (todo) => {
-    context.todo.deleteTodoItem(todo.id);
+    if (!context.todo.deleteTodoItem(todo.id)) {
+      return 404;
+    }
+    return 204;
+  };
+
+export const setTodoDescription =
+  (context: Context): api.server.SetTodoItemDescriptionOperationHandler<{}> =>
+  async ({ id }, description) => {
+    if (!context.todo.setTodoDescription(id, description)) {
+      throw 404;
+    }
+
+    return 204;
   };
 
 export const todoItemSetDone =
   (context: Context): api.server.TodoItemSetDoneOperationHandler<{}> =>
   async (todo) => {
-    const isDone = context.todo.markTodoAsDone(todo.id);
+    if (!context.todo.markTodoAsDone(todo.id)) {
+      return 404;
+    }
 
-    const todoItem = {
-      description: isDone.todoName,
-      id: isDone.todoId,
-      done: isDone.todoIsDone,
-    };
-    return todoItem;
+    return 204;
   };

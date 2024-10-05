@@ -26,4 +26,7 @@ for (const name of names) {
     ],
     options,
   );
+
+  cp.execFileSync(process.env.npm_execpath, ["--workspace", name, "install"], options);
+  cp.execFileSync(process.env.npm_execpath, ["--workspace", name, "run", "build"], options);
 }

@@ -34,7 +34,7 @@ function main() {
 
       // create and fill a div for out result
       const itemDiv = document.createElement("div");
-      itemDiv.innerText = resultValue.description;
+      itemDiv.innerText = input.value;
 
       // add it to the result dic
       resultDiv.prepend(itemDiv);

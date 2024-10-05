@@ -10,12 +10,12 @@
   "scripts": {
     "spelling": "cspell",
     "formatting": "prettier --check *",
-    "generate": "node ./scripts/generate.js",
-    "initialize": "node ./scripts/initialize.js"
+    "generate": "node ./scripts/generate.mjs",
+    "initialize": "node ./scripts/initialize.mjs"
   },
   "devDependencies": {
-    "@skiffa/generator": "^0.13.17",
-    "cspell": "^8.14.4",
+    "@skiffa/generator": "^0.13.20",
+    "cspell": "^8.14.2",
     "prettier": "^3.3.3"
   },
   "dependencies": {

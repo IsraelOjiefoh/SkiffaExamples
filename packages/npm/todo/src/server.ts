@@ -5,8 +5,8 @@ import { createContext } from "./context.js";
 import {
   addTodoItem,
   deleteTodoItem,
-  ListTodoItems,
-  modifyTodoItem,
+  listTodoItems,
+  setTodoDescription,
   todoItemSetDone,
 } from "./operation-handlers/todo.js";
 import { projectRoot } from "./root.js";
@@ -23,8 +23,8 @@ async function main() {
   // register all operations
   server.registerAddTodoItemOperation(addTodoItem(context));
   server.registerDeleteTodoItemOperation(deleteTodoItem(context));
-  server.registerListTodoItemsOperation(ListTodoItems(context));
-  server.registerModifyTodoItemOperation(modifyTodoItem(context));
+  server.registerListTodoItemsOperation(listTodoItems(context));
+  server.registerSetTodoItemDescriptionOperation(setTodoDescription(context));
   server.registerTodoItemSetDoneOperation(todoItemSetDone(context));
 
   // serve some static files

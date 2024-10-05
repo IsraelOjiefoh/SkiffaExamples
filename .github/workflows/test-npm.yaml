@@ -17,5 +17,7 @@ jobs:
       - run: corepack enable
 
       - uses: actions/checkout@v4
-      - run: npm run initialize
+      - run: npm --no-workspaces ci
+      - run: npm run generate
+      - run: npm --workspaces ci
       - run: npm --workspaces test
